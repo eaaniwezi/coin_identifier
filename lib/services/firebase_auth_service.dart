@@ -1,4 +1,5 @@
 import 'package:coin_identifier/services/firebase_coin_service.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:crypto/crypto.dart';
 import 'dart:convert';
@@ -69,25 +70,35 @@ class FirebaseAuthService {
   static Future<UserCredential> signInWithApple() async {
     try {
       final rawNonce = _generateNonce();
-      final nonce = _sha256ofString(rawNonce);
+      final hashedNonce = _sha256ofString(rawNonce);
 
-      final appleProvider = AppleAuthProvider();
-      appleProvider.addScope('email');
-      appleProvider.addScope('name');
+      final appleCredential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+        nonce: hashedNonce,
+      );
 
-      appleProvider.setCustomParameters({'nonce': nonce});
+      final oauthCredential = OAuthProvider(
+        'apple.com',
+      ).credential(idToken: appleCredential.identityToken, rawNonce: rawNonce);
 
-      UserCredential userCredential;
+      final userCredential = await FirebaseAuth.instance.signInWithCredential(
+        oauthCredential,
+      );
 
-      userCredential = await _auth.signInWithProvider(appleProvider);
       if (userCredential.user != null) {
         await FirebaseCoinService.createUserDocument(userCredential.user!);
       }
+
       return userCredential;
+    } on SignInWithAppleAuthorizationException catch (e) {
+      throw Exception('Apple Sign-In failed: ${e.message}');
     } on FirebaseAuthException catch (e) {
-      throw _handleAuthException(e);
+      throw Exception('Firebase error: ${e.message}');
     } catch (e) {
-      throw Exception('Apple Sign In failed. Please try again.');
+      throw Exception('Something went wrong during Apple Sign-In.');
     }
   }
 

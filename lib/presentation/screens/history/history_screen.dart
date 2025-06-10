@@ -336,19 +336,19 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
               style: TextStyle(color: Colors.grey[600], fontSize: 16),
             ),
             const SizedBox(height: 32),
-            ElevatedButton.icon(
-              onPressed: () {
-                Navigator.of(context).popUntil((route) => route.isFirst);
-              },
-              icon: const Icon(Icons.camera_alt),
-              label: const Text('Identify Your First Coin'),
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 24,
-                  vertical: 12,
-                ),
-              ),
-            ),
+            // ElevatedButton.icon(
+            //   onPressed: () {
+            //     Navigator.of(context).popUntil((route) => route.isFirst);
+            //   },
+            //   icon: const Icon(Icons.camera_alt),
+            //   label: const Text('Identify Your First Coin'),
+            //   style: ElevatedButton.styleFrom(
+            //     padding: const EdgeInsets.symmetric(
+            //       horizontal: 24,
+            //       vertical: 12,
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),
