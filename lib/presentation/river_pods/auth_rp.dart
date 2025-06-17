@@ -99,7 +99,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
       _log('Auth state changed: $isAuthenticated, User: ${user?.email}');
 
-      if (isAuthenticated && session != null && user != null) {
+      if (isAuthenticated && session != null) {
         await _saveSessionToSecureStorage(session);
         state = state.copyWith(isAuthenticated: true, user: user);
       } else {
