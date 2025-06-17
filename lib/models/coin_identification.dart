@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class CoinIdentificationResult {
@@ -8,7 +7,7 @@ class CoinIdentificationResult {
   final String? mintMark;
   final String rarity;
   final double priceEstimate;
-  final double confidenceScore;
+  final int confidenceScore; // Changed from double to int
   final String description;
 
   const CoinIdentificationResult({
@@ -30,7 +29,8 @@ class CoinIdentificationResult {
       mintMark: json['mint_mark'],
       rarity: json['rarity'] ?? 'Unknown',
       priceEstimate: (json['price_estimate'] ?? 0.0).toDouble(),
-      confidenceScore: (json['confidence_score'] ?? 0.0).toDouble(),
+      confidenceScore:
+          (json['confidence_score'] ?? 0).toInt(), // Convert to int
       description: json['description'] ?? '',
     );
   }
@@ -59,7 +59,7 @@ class CoinIdentification {
   final String? mintMark;
   final String rarity;
   final double priceEstimate;
-  final double confidenceScore;
+  final int confidenceScore; // Changed from double to int
   final String description;
   final DateTime identifiedAt;
   final DateTime createdAt;
@@ -80,11 +80,9 @@ class CoinIdentification {
     required this.createdAt,
   });
 
-  factory CoinIdentification.fromFirestore(DocumentSnapshot doc) {
-    final data = doc.data() as Map<String, dynamic>;
-
+  factory CoinIdentification.fromSupabase(Map<String, dynamic> data) {
     return CoinIdentification(
-      id: doc.id,
+      id: data['id'] ?? '',
       userId: data['user_id'] ?? '',
       imageUrl: data['image_url'] ?? '',
       coinName: data['coin_name'] ?? 'Unknown Coin',
@@ -93,15 +91,21 @@ class CoinIdentification {
       mintMark: data['mint_mark'],
       rarity: data['rarity'] ?? 'Unknown',
       priceEstimate: (data['price_estimate'] ?? 0.0).toDouble(),
-      confidenceScore: (data['confidence_score'] ?? 0.0).toDouble(),
+      confidenceScore:
+          (data['confidence_score'] ?? 0).toInt(), // Convert to int
       description: data['description'] ?? '',
       identifiedAt:
-          (data['identified_at'] as Timestamp?)?.toDate() ?? DateTime.now(),
-      createdAt: (data['created_at'] as Timestamp?)?.toDate() ?? DateTime.now(),
+          data['identified_at'] != null
+              ? DateTime.parse(data['identified_at'])
+              : DateTime.now(),
+      createdAt:
+          data['created_at'] != null
+              ? DateTime.parse(data['created_at'])
+              : DateTime.now(),
     );
   }
 
-  Map<String, dynamic> toFirestore() {
+  Map<String, dynamic> toSupabase() {
     return {
       'user_id': userId,
       'image_url': imageUrl,
@@ -113,8 +117,8 @@ class CoinIdentification {
       'price_estimate': priceEstimate,
       'confidence_score': confidenceScore,
       'description': description,
-      'identified_at': Timestamp.fromDate(identifiedAt),
-      'created_at': Timestamp.fromDate(createdAt),
+      'identified_at': identifiedAt.toIso8601String(),
+      'created_at': createdAt.toIso8601String(),
     };
   }
 
@@ -134,7 +138,8 @@ class CoinIdentification {
   String get displayName => coinName;
   String get displayOrigin => '$origin ($issueYear)';
   String get displayPrice => '\$${priceEstimate.toStringAsFixed(2)}';
-  String get displayConfidence => '${confidenceScore.toStringAsFixed(1)}%';
+  String get displayConfidence =>
+      '$confidenceScore%'; // Removed toStringAsFixed since it's now int
 
   String get formattedDate {
     final now = DateTime.now();

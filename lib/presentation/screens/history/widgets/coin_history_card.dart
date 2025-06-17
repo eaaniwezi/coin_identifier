@@ -152,16 +152,15 @@ class CoinHistoryCard extends StatelessWidget {
         Row(
           children: [
             Icon(Icons.access_time, size: 14, color: Colors.grey[500]),
-            const SizedBox(width: 4),
+            const SizedBox(width: 2),
             Text(
               coin.identifiedAt != null
                   ? DateFormat('MMM dd, yyyy').format(coin.identifiedAt)
                   : 'Unknown date',
-              style: TextStyle(fontSize: 12, color: Colors.grey[500]),
+              style: TextStyle(fontSize: 10, color: Colors.grey[500]),
             ),
 
-            const SizedBox(width: 12),
-
+            const SizedBox(width: 5),
             RarityBadge(rarity: coin.rarity, size: RarityBadgeSize.small),
           ],
         ),
@@ -219,7 +218,7 @@ class CoinHistoryCard extends StatelessWidget {
     );
   }
 
-  Color _getConfidenceColor(double confidence) {
+  Color _getConfidenceColor(int confidence) {
     if (confidence >= 80) {
       return Colors.green;
     } else if (confidence >= 60) {

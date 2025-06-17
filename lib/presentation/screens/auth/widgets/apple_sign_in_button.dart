@@ -16,12 +16,12 @@ class AppleSignInButton extends ConsumerWidget {
       width: double.infinity,
       height: AppDimensions.buttonHeight,
       child: ElevatedButton(
-        onPressed:
-            authState.isLoading
-                ? null
-                : () {
-                  ref.read(authProvider.notifier).signInWithApple();
-                },
+        onPressed: () {},
+        // authState.isLoading
+        //     ? null
+        //     : () {
+        //       ref.read(authProvider.notifier).signInWithApple();
+        //     },
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.black,
           foregroundColor: Colors.white,

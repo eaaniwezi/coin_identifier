@@ -5,7 +5,7 @@ import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_dimensions.dart';
 
 class ConfidenceIndicator extends StatefulWidget {
-  final double confidenceScore;
+  final int confidenceScore;
   final bool isMobileSmall;
 
   const ConfidenceIndicator({

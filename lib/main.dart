@@ -1,12 +1,11 @@
 // ignore_for_file: use_super_parameters
 
+import 'package:coin_identifier/core/config/env_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'core/constants/app_colors.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'presentation/river_pods/onboarding_rp.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:coin_identifier/firebase_options.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:coin_identifier/services/apphud_service.dart';
 import 'package:coin_identifier/presentation/river_pods/auth_rp.dart';
@@ -16,11 +15,17 @@ import 'package:coin_identifier/presentation/screens/onboarding/screens/onboardi
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  FirebaseFirestore.instance.settings = const Settings(
-    persistenceEnabled: true,
-    cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
+  await EnvConfig.initialize();
+  await Supabase.initialize(
+    url: EnvConfig.supabaseUrl,
+    anonKey: EnvConfig.supabaseAnonKey,
+    authOptions: FlutterAuthClientOptions(
+      authFlowType: AuthFlowType.pkce,
+      autoRefreshToken: true,
+    ),
+    debug: true,
   );
+
   await ApphudService.instance.initialize();
 
   await SystemChrome.setPreferredOrientations([
@@ -214,8 +219,8 @@ class _AppInitializerState extends ConsumerState<AppInitializer>
       final onboardingNotifier = ref.read(onboardingProvider.notifier);
       await onboardingNotifier.checkOnboardingStatus();
 
-      final authNotifier = ref.read(authProvider.notifier);
-      await authNotifier.checkAuthState();
+      // final authNotifier = ref.read(authProvider.notifier);
+      // await authNotifier.checkAuthState();
 
       if (!mounted) return;
 

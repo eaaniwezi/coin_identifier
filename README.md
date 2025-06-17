@@ -1,365 +1,269 @@
-# 🪙 Coin Identifier Pro
+# 🪙 Coin Radar
 
-A scalable Flutter app that uses AI to identify coins, determine their value, and help users track their collections with real-time market data and premium features.
+**AI-Powered Coin Recognition & Collection Management**
+
+A scalable Flutter application that uses AI to identify coins, determine their value, and helps users organize and track their coin collection with real-time market data.
 
 ## 📱 Features
 
-### Core Features
-- **AI-Powered Coin Identification**: Upload photos to identify coins with confidence scores
-- **Real-time Market Values**: Get accurate price estimates for identified coins
-- **Collection Tracking**: Save and organize your coin identification history
-- **Responsive Design**: Optimized for iPhone 14 and iPhone SE screen sizes
-- **Offline Support**: Graceful handling of offline scenarios
+### Core Functionality
+- **AI Coin Recognition** - Upload or capture photos to identify coins instantly
+- **Real-time Valuation** - Get current market estimates for identified coins
+- **Collection Management** - Save, organize, and track your coin collection
+- **Detailed Analytics** - View collection statistics and total value
+- **Offline Support** - Basic functionality available without internet
 
-### Premium Features
-- **Unlimited History**: Access complete identification history (free users limited to 15)
-- **Collection Analytics**: Track total collection value, average confidence scores
-- **Advanced Insights**: Detailed statistics and trends
-- **Priority Support**: Enhanced customer support experience
+### User Experience
+- **Seamless Authentication** - Email/password and Apple Sign-In support
+- **Responsive Design** - Optimized for iPhone 14 and iPhone SE
+- **Pro Features** - Premium subscription with enhanced capabilities
+- **Search & Filter** - Find coins in your collection quickly
 
-## 🛠 Tech Stack
+## 🏗️ Architecture
 
-### Frontend
-- **Flutter** 3.19+ - Cross-platform mobile development
-- **Riverpod** 2.4+ - State management solution
-- **Go Router** - Declarative routing
+### Technology Stack
+- **Frontend**: Flutter (Dart)
+- **Backend**: Supabase (PostgreSQL + Auth + Storage)
+- **Payments**: Apphud SDK for subscription management
+- **State Management**: Riverpod
+- **Local Storage**: Flutter Secure Storage
+- **Development**: Cursor AI-assisted development
 
-### Backend & Services
-- **Firebase** - Backend-as-a-Service
-  - Authentication (Email/Password + Apple Sign-In)
-  - Firestore NoSQL database
-  - Cloud Storage for coin images
-  - Real-time data synchronization
-- **Apphud** - Subscription management and paywall
-- **Mock AI API** - Simulated coin identification service
-
-### Key Packages
-```yaml
-dependencies:
-  flutter: ^3.19.0
-  flutter_riverpod: ^2.4.0
-  firebase_core: ^2.24.0
-  firebase_auth: ^4.15.0
-  cloud_firestore: ^4.13.0
-  firebase_storage: ^11.5.0
-  apphud_flutter: ^2.0.0
-  image_picker: ^1.0.0
-  cached_network_image: ^3.3.0
-  connectivity_plus: ^5.0.0
-  shared_preferences: ^2.2.0
-  intl: ^0.19.0
-  http: ^1.1.0
-```
-
-## 🏗 Architecture
-
-### Clean Architecture Pattern
+### Project Structure
 ```
 lib/
-├── core/                   # Core utilities and constants
-│   ├── constants/         # App colors, dimensions, API endpoints
-│   └── utils/            # Responsive utilities, helpers
-├── models/               # Data models
-│   └── coin_identification.dart
-├── presentation/         # UI Layer
-│   ├── river_pods/      # State management providers
-│   ├── screens/         # Screen widgets organized by feature
-│   │   ├── auth/        # Authentication screens
-│   │   ├── history/     # History and collection screens
-│   │   ├── home/        # Home screen and widgets
-│   │   ├── identify/    # Coin identification screens
-│   │   ├── onboarding/  # App onboarding flow
-│   │   ├── paywall/     # Subscription and paywall screens
-│   │   ├── profile/     # User profile screens
-│   │   └── result/      # Identification result screens
+├── core/
+│   ├── config/           # Environment configuration
+│   ├── constants/        # App constants and themes
+│   └── utils/           # Utility functions
+├── models/              # Data models
+├── services/            # Business logic and API services
+│   ├── supabase_auth_service.dart
+│   ├── supabase_coin_service.dart
+│   └── apphud_service.dart
+├── presentation/
+│   ├── river_pods/      # State management
+│   ├── screens/         # UI screens
 │   └── widgets/         # Reusable components
-├── services/            # External service integrations
-│   ├── apphud_service.dart
-│   ├── firebase_auth_service.dart
-│   ├── firebase_coin_service.dart
-│   └── firebase_options.dart
 └── main.dart
 ```
-
-### State Management Architecture
-- **Riverpod Providers**: Centralized state management
-- **Repository Pattern**: Clean separation between UI and business logic
-- **Real-time Updates**: Reactive UI that responds to data changes
-- **Error Handling**: Comprehensive error states and user feedback
-
-### Key Design Decisions
-
-#### 1. **Riverpod over Bloc**
-- **Why**: Simpler syntax, better performance, compile-time safety
-- **Benefits**: Reduced boilerplate, automatic dependency injection, better testing
-
-#### 2. **Firebase over Supabase**
-- **Why**: Mature ecosystem, excellent Flutter integration, real-time capabilities
-- **Benefits**: Comprehensive auth system, offline support, scalable NoSQL database
-
-#### 3. **Modular Screen Architecture**
-- **Why**: Scalability and maintainability
-- **Structure**: Each screen has its own folder with widgets and logic
-- **Benefits**: Easy to navigate, test, and modify individual features
-
-#### 4. **Responsive Design System**
-- **Breakpoints**: iPhone SE (small) vs iPhone 14+ (regular)
-- **Adaptive UI**: Font sizes, padding, and layouts adjust automatically
-- **Utility Class**: `Responsive` helper for consistent sizing
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Flutter SDK 3.19+
-- Dart 3.3+
-- iOS Simulator / Android Emulator
-- Firebase account
-- Apphud account
+- Flutter SDK (3.7.2+)
+- iOS development environment (Xcode)
+- Supabase account
+- Apphud account (for subscriptions)
 
-### Installation
+### Environment Setup
 
 1. **Clone the repository**
-```bash
-git clone https://github.com/eaaniwezi/coin_identifier.git
-cd coin_identifier
-```
+   ```bash
+   git clone https://github.com/your-repo/coin-identifier-pro.git
+   cd coin-identifier-pro
+   ```
 
 2. **Install dependencies**
-```bash
-flutter pub get
+   ```bash
+   flutter pub get
+   ```
+
+3. **Configure environment variables**
+   
+   Create a `.env` file in the project root:
+   ```env
+   SUPABASE_URL=your_supabase_project_url
+   SUPABASE_ANON_KEY=your_supabase_anon_key
+   DEBUG_MODE=true
+   
+   # Optional (for future features)
+   AI_API_URL=
+   AI_API_KEY=
+   APPHUD_API_KEY=your_apphud_api_key
+   ```
+
+4. **Set up Supabase**
+   
+   Run the database schema in your Supabase SQL Editor:
+   ```sql
+   -- See database_schema.sql for complete setup
+   -- Creates users and coin_identifications tables
+   -- Sets up RLS policies and triggers
+   ```
+
+5. **Configure Supabase Storage**
+   
+   Create a `coin-images` bucket in Supabase Storage:
+   - Public bucket: ✅ Yes
+   - File size limit: 5MB
+   - Allowed types: image/jpeg, image/png, image/webp
+
+6. **Run the application**
+   ```bash
+   flutter run
+   ```
+
+## 🔧 Configuration
+
+### Supabase Setup
+
+1. **Database Tables**
+   - `users` - User profiles and collection stats
+   - `coin_identifications` - Saved coin identifications
+
+2. **Storage Buckets**
+   - `coin-images` - User uploaded coin images
+
+3. **Authentication**
+   - Email/password authentication
+   - Apple Sign-In (iOS)
+   - Row Level Security (RLS) enabled
+
+### Key Services
+
+#### Authentication Service (`SupabaseAuthService`)
+- Handles user registration and login
+- Manages session persistence
+- Supports multiple auth methods
+
+#### Coin Service (`SupabaseCoinService`)
+- Image upload to Supabase Storage
+- AI coin identification (currently mocked)
+- Collection management
+- User statistics
+
+#### Apphud Service (`ApphudService`)
+- Subscription management
+- Paywall integration
+- Pro feature access control
+
+## 📊 Database Schema
+
+### Users Table
+```sql
+CREATE TABLE users (
+  id UUID PRIMARY KEY REFERENCES auth.users(id),
+  email TEXT,
+  display_name TEXT,
+  total_collection_value DECIMAL(10,2) DEFAULT 0.00,
+  coins_collected INTEGER DEFAULT 0,
+  is_pro_user BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
 ```
 
-3. **Set up Firebase configuration**
-
-Add your Firebase configuration files:
-- Place `google-services.json` in `android/app/`
-- Place `GoogleService-Info.plist` in `ios/Runner/`
-
-4. **Run the app**
-```bash
-flutter run
+### Coin Identifications Table
+```sql
+CREATE TABLE coin_identifications (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES users(id),
+  image_url TEXT NOT NULL,
+  coin_name TEXT NOT NULL,
+  origin TEXT,
+  issue_year INTEGER,
+  rarity TEXT CHECK (rarity IN ('Common', 'Uncommon', 'Rare', 'Very Rare', 'Error')),
+  price_estimate DECIMAL(10,2),
+  confidence_score INTEGER CHECK (confidence_score >= 0 AND confidence_score <= 100),
+  identified_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
 ```
 
-### 🔥 Firebase Setup
+## 🎯 Core User Flow
 
-1. **Create a new Firebase project** at [console.firebase.google.com](https://console.firebase.google.com)
+1. **Onboarding** → **Sign Up/Sign In** → **Home**
+2. **Upload/Take Photo** → **AI Processing** → **Results**
+3. **Save to Collection** → **View History** → **Profile Stats**
 
-2. **Add your Flutter app** to the Firebase project
-   - Download `google-services.json` (Android) and `GoogleService-Info.plist` (iOS)
-   - Place them in the correct directories as per Firebase documentation
+## 📱 Screens
 
-3. **Configure Firebase CLI**
-```bash
-firebase login
-firebase projects:list
-flutterfire configure
-```
+- **Onboarding** - App introduction and features
+- **Authentication** - Sign up/sign in options
+- **Home** - Main dashboard with upload options
+- **Camera/Upload** - Image capture and selection
+- **Results** - Coin identification display
+- **History** - Collection browsing and management
+- **Profile** - User stats and subscription management
+- **Paywall** - Pro subscription options
 
-4. **Firestore Database Setup**
+## 🔐 Security Features
 
-Create these collections and security rules:
+- Row Level Security (RLS) on all database tables
+- Secure image upload with user-specific folders
+- Environment variable protection for API keys
+- Flutter Secure Storage for local data
+- Session management with automatic refresh
 
-**Collections Structure:**
-```
-users/
-├── {userId}/
-│   ├── email: string
-│   ├── displayName: string
-│   ├── createdAt: timestamp
-│   └── updatedAt: timestamp
+## 🚧 Current Limitations
 
-coinIdentifications/
-├── {identificationId}/
-│   ├── userId: string
-│   ├── imageUrl: string
-│   ├── coinName: string
-│   ├── origin: string
-│   ├── issueYear: number
-│   ├── mintMark: string
-│   ├── rarity: string ('Common', 'Uncommon', 'Rare', 'Error')
-│   ├── priceEstimate: number
-│   ├── confidenceScore: number (0-100)
-│   ├── identifiedAt: timestamp
-│   └── createdAt: timestamp
-```
+- AI identification is currently mocked (ready for real API integration)
+- Limited to iOS platform (Android support planned)
+- Basic offline functionality (full offline mode planned)
 
-**Firestore Security Rules:**
-```javascript
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    // Users can only access their own user document
-    match /users/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
-    }
-    
-    // Users can only access their own coin identifications
-    match /coinIdentifications/{identificationId} {
-      allow read, write: if request.auth != null && 
-        request.auth.uid == resource.data.userId;
-      allow create: if request.auth != null && 
-        request.auth.uid == request.resource.data.userId;
-    }
-  }
-}
-```
+## 🔄 Future Enhancements
 
-5. **Firebase Authentication Setup**
-   - Enable Email/Password authentication
-   - Configure Apple Sign-In provider
-   - Set up authorized domains for your app
+- Real AI model integration for coin identification
+- Android platform support
+- Advanced collection analytics
+- Social features (sharing collections)
+- Marketplace integration
+- Enhanced offline capabilities
 
-6. **Firebase Storage Setup**
-   - Create storage bucket for coin images
-   - Configure storage security rules:
+## 📦 Dependencies
 
-```javascript
-rules_version = '2';
-service firebase.storage {
-  match /b/{bucket}/o {
-    match /coin-images/{userId}/{allPaths=**} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
-    }
-  }
-}
-```
+### Core
+- `flutter_riverpod` - State management
+- `supabase_flutter` - Backend services
+- `flutter_secure_storage` - Secure local storage
+- `flutter_dotenv` - Environment configuration
 
-### 🎨 Customization
+### UI/UX
+- `cached_network_image` - Image caching
+- `image_picker` - Camera and gallery access
+- `share_plus` - Sharing functionality
 
-#### Theme Configuration
-Located in `lib/core/constants/app_colors.dart`:
-```dart
-class AppColors {
-  static const Color primaryGold = Color(0xFFD4AF37);
-  static const Color primaryNavy = Color(0xFF1A237E);
-  // ... customize your brand colors
-}
-```
+### Authentication
+- `sign_in_with_apple` - Apple Sign-In integration
+- `crypto` - Cryptographic operations
 
-#### Responsive Breakpoints
-Located in `lib/core/utils/responsive.dart`:
-```dart
-class Responsive {
-  static bool isMobileSmall(BuildContext context) {
-    return MediaQuery.of(context).size.width < 375; // iPhone SE
-  }
-}
-```
+### Utilities
+- `connectivity_plus` - Network status
+- `intl` - Internationalization
+- `shared_preferences` - Simple local storage
 
-## 🚀 Running the App
+## 🛠️ Development
 
-### Development
-```bash
-# iOS Simulator
-flutter run -d ios
-
-# Android Emulator  
-flutter run -d android
-
-# Chrome (for web testing)
-flutter run -d chrome
-```
-
-### Production Build
-```bash
-# iOS
-flutter build ios --release
-
-# Android
-flutter build apk --release
-```
-
-## 🧪 Testing
-
-### Unit Tests
-```bash
-flutter test
-```
-
-### Integration Tests
-```bash
-flutter test integration_test/
-```
-
-### Test Coverage
-```bash
-flutter test --coverage
-genhtml coverage/lcov.info -o coverage/html
-```
-
-## 📊 Project Statistics
-
-- **Total Screens**: 8 main screens
-- **Riverpod Providers**: 12 state management providers
-- **Reusable Widgets**: 25+ custom components
-- **API Integrations**: 3 external services
-- **Offline Features**: 4 offline-capable screens
-- **Responsive Breakpoints**: 2 (iPhone SE, iPhone 14+)
-
-## 🚦 Core User Flows
-
-### 1. Onboarding Flow
-```
-Splash → Welcome → Sign Up/Sign In → Home
-```
-
-### 2. Coin Identification Flow
-```
-Home → Camera/Gallery → AI Processing → Results → Save to History
-```
-
-### 3. Premium Subscription Flow
-```
-Any Screen → Paywall → Apple Pay → Success → Premium Features Unlocked
-```
-
-### 4. Collection Management Flow
-```
-History → Filter/Search → Coin Details → Edit/Delete → Analytics (Premium)
-```
-
-## 🎯 Performance Optimizations
-
-- **Image Caching**: Implements `cached_network_image` for efficient loading
-- **Lazy Loading**: History screen loads data in paginated chunks
-- **State Persistence**: Critical state saved locally with `shared_preferences`
-- **Offline Caching**: Last 3 identifications cached for offline viewing
-- **Memory Management**: Proper disposal of controllers and streams
-
-## 📈 Scalability Considerations
-
-### Database Design
-- **NoSQL Collections**: Optimized for user-specific data retrieval
-- **Real-time Listeners**: Firebase real-time updates for live data
-- **Offline Support**: Built-in Firebase offline capabilities
-- **Security Rules**: Server-side validation and access control
+### Code Quality
+- Follows Flutter best practices
+- Modular architecture with clear separation of concerns
+- Comprehensive error handling
+- Type-safe development
 
 ### State Management
-- **Provider Composition**: Modular providers for specific features
-- **Dependency Injection**: Automatic provider dependencies
-- **Memory Efficiency**: Providers auto-dispose when not needed
+- Riverpod for reactive state management
+- Provider pattern for service injection
+- Immutable state objects
 
-### API Architecture
-- **Repository Pattern**: Clean abstraction for external services
-- **Error Handling**: Comprehensive error states and retry mechanisms
-- **Rate Limiting**: Built-in API call throttling
+### Testing Strategy
+- Unit tests for services and models
+- Widget tests for UI components
+- Integration tests for complete user flows
 
-## 🐛 Troubleshooting
+## 📄 License
 
-### Common Issues
+This project is proprietary software. All rights reserved.
 
-#### 1. Image Upload Issues
-```bash
-# Check Firebase Storage rules and permissions
-# Verify authentication is working properly
-# Check storage bucket configuration in Firebase Console
-```
+## 🤝 Contributing
 
-#### 2. Build Errors
-```bash
-# Clean and rebuild
-flutter clean
-flutter pub get
-flutter pub deps
-flutter build ios --release
-```
+This is a private project. For development team members:
+
+1. Follow the established code style
+2. Write tests for new features
+3. Update documentation as needed
+4. Use conventional commit messages
+
+## 📞 Support
+
+For technical issues or questions, contact the development team or create an issue in the project repository.
+
+---
